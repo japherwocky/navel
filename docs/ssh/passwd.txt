@@ -1,0 +1,16 @@
+When you first get your account, your password is probably something like "changeme".  You should change your password!
+
+Once you've used [SSH](/ssh) to login, use the `passwd` program to change your password, by typing "passwd" and following the prompt.  It should look something like:
+
+	japherwocky@m4ria:~$ passwd
+
+	Changing password for japherwocky.
+	(current) UNIX password:
+	Enter new UNIX password:
+	Retype new UNIX password:
+	japherwocky@m4ria:~$
+
+Easy, right?  If you don't like your password, you can change it as often as you'd like with the passwd command.
+
+Now that you can connect to the pearachute servers, we'll use a tool called [mercurial](/hg) to transfer files around.  Mercurial uses SSH too, so keep in mind that when it asks you for a username and a password, it's the same.
+

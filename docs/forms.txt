@@ -1,0 +1,138 @@
+Forms
+=====
+
+When you get beyond making web sites and into making web applications, at some point you'll probably need a way for users to pass information into your program.  That information might be a comment on a blog post, or an item they'd like to purchase.
+
+------------------------------------------------------------
+
+HTML
+====
+A very simple form:
+
+    <form method="POST" action="/">
+        <input type="text" value="changeme" name="foo" />
+        <input type="submit" value="SEND" />
+    </form>
+
+looks like this:
+
+
+<form method="POST" action="/form">
+<input type="text" value="changeme" name="foo" />
+<input type="submit" value="SEND" />
+</form>
+
+------------------------------------------------------------
+
+`<form method="POST" action="/">` means to send the values in this form to the address "/".  ie, `http://yoursite.com` + `/`.  There are two types of sending the values, `POST` and `GET`;  `GET` sends everything via the URL, and would look like `http://yoursite.com/?foo=changeme`.  `POST` keeps the URL clean.  For the most part it doesn't really matter what method you use, as long as you know which one you're using.
+
+`<input type="text" value="changeme" name="foo" />` creates the empty box with the text "changeme".  When the form is sent, we'll use the `name` attribute to read whatever `value` the user put in.
+
+
+`<input type="submit" value="SEND" />`  gives the user a button to click to let us know they're ready to send the form.  You can also submit forms using javascript, and sometimes not show a user a form at all.  This is how `AJAX`, and "real-time" apps work.
+
+There are [other form types](http://www.tizag.com/htmlT/forms.php), each with their own particular use and particular quirks.  In general, everything will have a *name* and a *value*.  You can also have multiple inputs inside a single `<form>`; when the form gets submitted, the browser sends all the inputs inside that particular form tag.
+
+------------------------------------------------------------
+Frustratingly, to style something with CSS we use `id="foo"`, but to process the form we need something like `name="foo"`.  So a lot of forms end up with silliness like `<input type="text" value="bar" name="foo" id="foo">`.  It's usually best for your sanity to keep your names and ids the same.  
+
+Why do we have to use ids and names?  Well, the `<form>` tag was around before CSS, and the people who set up CSS thought it was better to use a different attribute so that they wouldn't break any of the HTML that already existed.  Especially on the internet, the state of things is a mishmash of negotiations between shadowy organizations and the people who write browsers.  Luckily, there's a good balance of smart people who mean well, and corporations who have ulterior motives.
+
+-----------------------------------------------------------
+
+Go ahead and add a form like the one above to your index.html file for this next part:
+
+-----------------------------------------------------------
+
+Python
+======
+
+So now that our users can send us information, we need to write some code to do something with that information.  
+
+Technically, whenever a browser tries to load a page, we call that a *request*.  When a browser sends a form, it sends a *request* for the page located in the `action` attribute ("/", in the case of `action="/"`).  Inside that request, it includes the names and values of the form inputs.
+
+Inside `dojoserv.py`, there's a chunk of code that look like:
+
+    handlers = [
+        (r"/", MainHandler),
+        (r"(?!\/static.*)(.*)/?", DocHandler),
+        ]
+
+*Handlers* are blocks of code to handle *requests*.  So the list of handlers maps URL addresses to blocks of code;  a request for "/" gets handled by `MainHandler`. `MainHandler` is up at the top of the file, and looks like:
+
+    class MainHandler( tornado.web.RequestHandler):
+        def get(self):
+            self.render( 'index.html')
+
+-------------------------------------------------------------
+
+`class MainHandler( tornado.web.RequestHandler):` means that this block of code named `MainHandler` is a *subclass* of `tornado.web.RequestHandler`.  (In tornado/web.py there is a class named `RequestHandler` that this code uses to work properly.)  Classes are still a little magic, so don't worry too much about that.
+
+`def get(self):` is defining a *method* named `get` for the `MainHandler` *class*.  Not coincidentally, "GET" was one of the HTML form methods.  It's also a method of *requesting* web pages.  When you type a URL into your browser and hit enter, your browser is making a GET request from the web server at that address.  So what we're doing is telling tornado that `MainHandler` is handling all requests to the address "/", and the `get` method is the code that handles GET requests.
+
+`self.render( 'index.html')` tells tornado to use "templates/index.html".  Note that the method is indented once from the class, and this line is indented once from the definition of the method.  
+
+So, we want to handle POST requests from our form.  We need some code that looks like this:
+
+        def post(self):
+            print self.get_argument( "foo")
+            self.redirect( '/')
+
+Try adding that to your `MainHandler`, loading [your page](http://localhost:8001), and submitting the form.  The window you launched your webserver in should say "changeme", or whatever you typed into the form.  Remember  `print` from your template?  (`def post(self):` should be indented at the same level as `def get(self):`)
+
+After the code gets the argument `foo`, we redirect the user back to GET '/'.  Redirecting after a POST is a common pattern that web people use to make the back button work the way users usually expect it to.
+
+-----------------------------------------------------------
+
+If you ever want to use whatever your user just submitted, at some point you'll need to write it to a *disk*.  So, maybe the simplest way to do that is to write it into a file.  We'll write one `foo` to a line in the file `foos.txt` with some python.  Add this to your `post` method, before the line that redirects:
+
+    foo = self.get_argument("foo")
+    foos = open('foos.txt', 'a').write( foo + '\r\n')
+
+Try submitting a few things and then looking at the file.
+
+-----------------------------------------------------------
+
+
+We can load foos in our `get` method with some python like:
+
+    foos = open('foos.txt').readlines()
+
+And then we can pass those foos to our template from the handler with a line like:
+
+    self.render( 'index.html', foos=foos)
+
+To make our foos into an HTML list, in our template we want to do something like:
+
+    <ul>
+    {{ 
+    for foo in foos:
+        print '<li>' + foo + '</li>'
+    }}
+    </ul>
+
+
+-----------------------------------------------------------
+
+Homework
+========
+
+So, the homework challenge:  Set up a form that writes user input into a file, and shows that input in a template.  A lot of this should seem pretty magical still (we're covering a lot of ground), but try changing things a little to see what happens, and definitely ask questions!
+
+-----------------------------------------------------------
+
+Model View Controller
+=====================
+
+Modern web frameworks are generally built around MVC: *Model, View, Controller*.  In tornado, the templates are the views, and the handlers are the controllers.  The *Model* is your *data*.  It's not as important for the simple pages we're building now, but it's good to know that a lot of modern web programming, no matter what the language, boils down to looking up data on a disk somewhere and putting those values into a template, really really quickly.
+
+In other words, everything else is doing what you just did in fanicer and more complex ways.
+
+-----------------------------------------------------------
+
+Security
+========
+
+Be aware that people and robots *will* try to attack code you put on the internet, especially via forms, and that security is *hard*.  Lots of professional web programmers are very bad at it, and publish lots of sites with lots of security vulnerabilities.  
+
+So - before you put something on the internet, have someone who knows what they're doing glance over it.

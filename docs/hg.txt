@@ -1,0 +1,41 @@
+Mercurial
+==========
+
+Mercurial is a tool for moving software between computers.  The file that runs the program is usually called *hg*, after the chemical symbol for Mercury, which is a bit easier to type, and how many people refer to it in writing.
+
+The way it works is pretty easy, you just have to know 5 commands to do 90% of what you'll do with it.  
+
+First, to check out a copy of a project, you use `clone`:
+
+`hg clone ssh://`*`yourusername`*`@dojo.pearachute.com/`*`projectname`*
+
+and then you've got your own copy of the project to experiment on.. so no fears of messing anything up.  After you make changes, you `commit` them with something like:
+
+`hg ci -m "`*`a line about what you changed in the code`*`"`
+
+which you might do a few times. A neat trick here is that you can undo changes back to whenever you've committed.
+
+Eventually, you'll want to check all of your changes into the main server, using `push`:
+
+`hg push ssh://`*`yourusername`*`@dojo.pearachute.com/`*`projectname`*
+
+if someone else pushes changes, you can download those changes with `pull`:
+
+`hg pull`
+
+and update your local copy afterwards with `update`:
+
+`hg update`
+
+
+If you're on windows, instead of typing commands you'll probably want to use [TortoiseHg](http://tortoisehg.bitbucket.org/download/index.html). 
+
+A german fellow wrote a pretty [succinct tutorial with screenshots](http://draketo.de/light/english/mercurial/short-introduction-mercurial-tortoisehg).  The basic idea is that instead of typing `hg `*`whatever`*, you right click on files and in folders.
+
+If you're on a Mac, you should [download Mercurial here](http://mercurial.berkwood.com/).
+
+-----------------------------------------------------------------
+
+You might also need to [download Python](http://python.org/download/releases/2.7/).  We'll be talking a lot more about Python later on!
+
+-----------------------------------------------------------------

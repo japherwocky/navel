@@ -1,0 +1,174 @@
+HELLO WORLD
+===========
+
+** HTML **
+
+HTML is a set of tags that tell a browser how to render text.
+
+When you type a sentence in word, and mark one word as _bold_, how does the computer know which word is bold?  Behind the scenes, it's storing markers.  So a _bold_ word, to the computer might look like:
+
+    a <b>bold</b> word
+
+HTML is those magic tags, little words or letters in between <code>&lt;</code> and `>`.
+
+Every opening tag (<code><></code>) should have an ending tag with a slash (<code>&lt; /&gt;</code>).  There are exceptions to this rule, but you don't even need to remember that.
+
+--------------------------------------------------
+
+Once you understand the mystery of the angle brackets, and pairing tags, the rest is just looking up how each tag works.  The tags you'll need to start with:
+
++ HTML
++ HEAD
++ BODY
++ P (*P*aragraph)
++ UL (*U*nordered *L*ist)
++ LI (*L*ist *I*tem)
++ A (links)
++ IMG (images)
+
+--------------------------------------------------
+
+Some tags like <code>&lt;p&gt;</code> used to not have pairs.  Some tags don't make much sense as a pair, since you'd never want to include something inside them. ( Like <code>&lt;br&gt;</code>, which is used to force a line to end. )
+
+The only real rule is what things look like in a browser.  Lots of people "break the rules", because they're jerks or don't know better.  So, the people who write the browsers have to write the browsers to deal with all the ways that the jerks don't follow the rules.  
+
+It's pretty annoying!  And makes things more complicated!  So make everyone's life easier, always use pairs of tags.  
+
+If nothing goes in between two tags (they are "empty"), we write them like <code>&lt;br /&gt;</code>
+
+
+
+--------------------------------------------------
+
+The last thing you'll need to understand about HTML is that Tags can have *attributes*. For example, to make a [link](http://pearachute.com) to another page, you'd use an <code>&lt;a&gt;</code> tag with an <code>href</code> attribute:
+
+	<a href="http://pearachute.com">link</a>
+
+So, <code>a</code> is the tag, and <code>http://pearachute.com</code> is the value of the href attribute.  The text inside the tags is what gets shown to people, but the computer reads the extra information and knows that if we click on text inside an <code>a</code> tag, it should send us to whatever the value of the <code>href</code> attribute is.
+
+--------------------------------------------------
+
+** CSS **
+
+Congratulations!  You can now make ugly web pages! :)
+
+To make them look a little nicer, we can use CSS to change font sizes, and colors and layout, etc.
+
+CSS is written differently from HTML, and was invented later.  It's like an extra layer wrapped on top.  One way to use it is with the <code>style</code> tag, in the same file as your HTML:
+
+	<style type="text/css">
+
+		... CSS goes here ...
+
+	</style>
+
+The actual CSS is a series of statements, _selecting_ pairs of HTML tags and _describing_ which styles should be applied to them.  (By the way, sometimes we call a pair of tags an _element_)
+
+One of the most common ways to select an element (a pair of tags) is with a <code>class</code> attribute:
+
+	<style type="text/css">
+		.foo { color: blue; }
+	</style>
+
+	<p class="foo">Let's turn this text blue</p>
+
+becomes:
+
+<style type="text/css">
+.foo { color: blue; }
+</style>
+
+<p class="foo">Let's turn this text blue</p>
+
+The <code>.foo</code> is called the _selector_. it selects elements that have a class of <code>foo</code>.
+
+Everything between the curly brackets ( <code>{ ... }</code> ) is called the _descriptor_.  It describes how to style the selected element.
+
+These rules follow a pattern of "<code>{ property : value ; }</code>".  There are lots of different properties you can set, and all of them take different values.  You'll probably want to skim a reference like [Tizag](http://www.tizag.com/cssT), or search for CSS tutorials to get a feel for what you can do.
+
+Some of the most common and useful properties are <code>font-family</code>, <code>color</code>, <code>font-size</code>, and <code>background</code>.
+
+	<style type="text/css">
+	.footoo { 
+		font-family: Georgia;
+		color: blue;
+		font-size: 26px;
+		background: cyan;
+		}
+	</style>
+
+	<p class="footoo">Let's turn this text blue</p>
+
+<style type="text/css">
+.footoo { 
+	font-family: Georgia;
+	color: blue;
+	font-size: 26px;
+	background: cyan;
+	}
+</style>
+
+<p class="footoo">Let's turn this text blue</p>
+
+----------------------------------------------------
+
+Ok, time for your first webpage, and your first assignment.  Fill in the following HTML snippet and email it back to me.  You can preview how it looks by saving it as a ".html" file, and looking at it with a browser.
+
+----------------------------------------------------
+
+	<html>
+	
+	<head> 
+ 	
+		<title> The Name of a Website You Would Like To Build </title> 
+ 
+		<style type="text/css"> 
+ 
+			body { 
+				font-family: arial;
+				font-size: 26px;
+			   	color: #def3f8;
+				background: #FFFFFF;
+				}
+
+			.blue { color: blue }
+		</style> 
+
+	</head> 
+ 
+	<body> 
+ 
+		<p>
+		First, change this <a href="http://tizag.com/htmlT">link</a> to an HTML tutorial you found on the web.
+		</p>
+
+		<p>
+		Write a quick description of a website you'd like to build.
+		</p>
+
+		<ul>
+			<li>List a few features you'd like.</li>
+			<li>Or maybe some different sections?</li>
+		</ul>
+
+		<p>
+		Extra credit:  Make some text blue.
+		</p>
+
+		<p>
+		Double Extra Credit: Look up HTML color codes.
+		</p>
+
+	</body> 
+ 
+	</html> 
+
+---------------------------------------------------
+
+Some completely optional [info on HTML's history](http://diveintohtml5.org/)
+
+---------------------------------------------------
+
+Kez found a pretty cool set of [CSS demos](http://http://www.chouselive.co.za/demo/css/mouse-over/mouseover-anywhere.php).  If you click through the "Next Demonstration", you can see some of the pretty nifty stuff CSS is capable of, even if some of it doesn't make sense yet.
+
+---------------------------------------------------

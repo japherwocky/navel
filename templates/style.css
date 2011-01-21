@@ -1,0 +1,33 @@
+
+
+            body {
+                font-family: 'Inconsolata', 'arial', sans-serif;
+                font-size: 26px;
+               color: #000000;
+                background: #FFFFFF;
+                }
+
+            img {
+                border-style:none;
+                }
+
+
+            /* Links */
+
+
+            a:link, a:visited, a:active {
+               text-decoration:none;
+                color: #3e5315;
+            }
+
+            a:hover {
+                text-decoration:underline;
+               color: #FCBE4B;
+            }
+
+            #frame {
+                padding:26px;
+                width: 800px;
+                }
+
+
