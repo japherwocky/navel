@@ -4,6 +4,13 @@ __Dojo__ is my earnest attempt to describe my technique for building websites, a
 
 It's complex and difficult, but simpler than other approaches you might take.  
 
-You'll start with four lessons covering the basic tools.
+You'll start with four lessons covering the basic tools:
 
-The first is [HTML](/html).
+1. [HTML](/html)
+2. [Version Control](/ssh) 
+3. [Scripting](/python)
+4. [Persisting Data](/forms)
+
+Then, you'll work with a group on building the website *you* want to build.
+
+To get started, get your address on the [mailing list](http://simplemailer.pearachute.com/classes)!

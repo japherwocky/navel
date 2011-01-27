@@ -36,8 +36,6 @@ It's pretty annoying!  And makes things more complicated!  So make everyone's li
 
 If nothing goes in between two tags (they are "empty"), we write them like <code>&lt;br /&gt;</code>
 
-
-
 --------------------------------------------------
 
 The last thing you'll need to understand about HTML is that Tags can have *attributes*. For example, to make a [link](http://pearachute.com) to another page, you'd use an <code>&lt;a&gt;</code> tag with an <code>href</code> attribute:
@@ -88,27 +86,22 @@ These rules follow a pattern of "<code>{ property : value ; }</code>".  There ar
 
 Some of the most common and useful properties are <code>font-family</code>, <code>color</code>, <code>font-size</code>, and <code>background</code>.
 
+Code like this:
+
 	<style type="text/css">
 	.footoo { 
-		font-family: Georgia;
-		color: blue;
+		font-family: serif;
 		font-size: 26px;
+		color: blue;
 		background: cyan;
 		}
 	</style>
 
 	<p class="footoo">Let's turn this text blue</p>
 
-<style type="text/css">
-.footoo { 
-	font-family: Georgia;
-	color: blue;
-	font-size: 26px;
-	background: cyan;
-	}
-</style>
+Looks like:
 
-<p class="footoo">Let's turn this text blue</p>
+<p class="footoo" style="font-family:serif;font-size:26px;color:blue;background:cyan;">Let's turn this text blue</p>
 
 ----------------------------------------------------
 
@@ -120,7 +113,9 @@ Ok, time for your first webpage, and your first assignment.  Fill in the followi
 	
 	<head> 
  	
-		<title> The Name of a Website You Would Like To Build </title> 
+		<title> 
+            The Name of a Website You Would Like To Build 
+        </title> 
  
 		<style type="text/css"> 
  
@@ -139,11 +134,14 @@ Ok, time for your first webpage, and your first assignment.  Fill in the followi
 	<body> 
  
 		<p>
-		First, change this <a href="http://tizag.com/htmlT">link</a> to an HTML tutorial you found on the web.
+		    First, change this 
+            <a href="http://tizag.com/htmlT">link</a> 
+            to an HTML tutorial you found on the web.
 		</p>
 
 		<p>
-		Write a quick description of a website you'd like to build.
+		Write a quick description of a website you'd like 
+        to build.
 		</p>
 
 		<ul>
