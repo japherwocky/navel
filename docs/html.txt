@@ -5,7 +5,7 @@ HELLO WORLD
 
 HTML is a set of tags that tell a browser how to render text.
 
-When you type a sentence in word, and mark one word as _bold_, how does the computer know which word is bold?  Behind the scenes, it's storing markers.  So a _bold_ word, to the computer might look like:
+When you type a sentence in word, and mark one word as _bold_, how does the computer know which word is bold?  Behind the scenes, it's doing extra work.  So a _bold_ word, to the computer might look like:
 
     a <b>bold</b> word
 

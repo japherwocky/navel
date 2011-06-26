@@ -39,3 +39,5 @@ If you're on a Mac, you should [download Mercurial here](http://mercurial.berkwo
 You might also need to [download Python](http://python.org/download/releases/2.7/).  We'll be talking a lot more about Python later on!
 
 -----------------------------------------------------------------
+
+Another really good resource for learning Mercurial is [hginit.com](http://hginit.com/).  Written by [Joel Spolsky](http://www.joelonsoftware.com/), it's aimed more at programmers switching from SVN, but it's very thorough and well written.
