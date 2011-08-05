@@ -1,4 +1,4 @@
-** Hello World **
+** Hey World **
 
 __Dojo__ is a very slight fork of the excellent [tornado](http://tornadoweb.org) which I use to teach people how to work with python, javascript, HTML and CSS.
 
