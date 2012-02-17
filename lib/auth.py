@@ -21,7 +21,7 @@ class Login( AuthHandler):
         if not sha512( password).hexdigest() == userobj['passhash']:
             return self.get( "Invalid login or password!" )
 
-        self.set_secure_cookie("banneruser", login)
+        self.set_secure_cookie("pearachuteuser", login)
 
         nexturl = self.get_argument('next', None)
         self.redirect( nexturl or '/')
