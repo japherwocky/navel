@@ -5,7 +5,7 @@ import os
 join = os.path.join
 exists = os.path.exists
 
-
+from logging import info
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -85,7 +85,7 @@ def main():
 
     http_server = tornado.httpserver.HTTPServer( App() )
     http_server.listen(options.port)
-    print 'Serving on port %d' % options.port
+    info( 'Serving on port %d' % options.port )
     tornado.ioloop.IOLoop.instance().start()
 
 
