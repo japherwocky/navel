@@ -1,0 +1,35 @@
+Git
+==========
+
+Git is a tool for moving software between computers.  The file that runs the program is usually called *git*, ~~after the chemical symbol for Mercury~~, which is a bit easier to type, and how many people refer to it in writing.
+
+The way it works is pretty easy, you just have to know 5 commands to do 90% of what you'll do with it.  
+
+First, to check out a copy of a project, you use `clone`:
+
+`git clone http://github.com/japherwocky/dojo`
+
+if you want a particular branch, look to see which are available:
+
+
+
+
+
+and then you've got your own copy of the project to experiment on.. so no fears of messing anything up.  After you make changes, you `commit` them with something like:
+
+`hg ci -m "`*`a line about what you changed in the code`*`"`
+
+which you might do a few times. A neat trick here is that you can undo changes back to whenever you've committed.
+
+Eventually, you'll want to check all of your changes into the main server, using `push`:
+
+`hg push ssh://`*`yourusername`*`@dojo.pearachute.com/`*`projectname`*
+
+if someone else pushes changes, you can download those changes with `pull`:
+
+`hg pull`
+
+and update your local copy afterwards with `update`:
+
+`hg update`
+
