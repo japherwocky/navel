@@ -33,3 +33,13 @@ and update your local copy afterwards with `update`:
 
 `hg update`
 
+
+Shit I Have To Look Up Constantly
+====================================
+
+How to list remote branches
+
+
+How to delete a remote branch:
+
+`git push origin :branchtodelete`
