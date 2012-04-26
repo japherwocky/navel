@@ -184,6 +184,8 @@ from tornado.util import bytes_type
 _DEFAULT_AUTOESCAPE = "xhtml_escape"
 _UNSET = object()
 
+foo = 'bar'
+
 class Template(object):
     """A compiled template.
 
@@ -191,7 +193,7 @@ class Template(object):
     the template from variables with generate().
     """
     def __init__(self, template_string, name="<string>", loader=None,
-                 compress_whitespace=None, autoescape=_UNSET):
+                 compress_whitespace=None, autoescape=None):
         self.name = name
         if compress_whitespace is None:
             compress_whitespace = name.endswith(".html") or \
@@ -765,3 +767,13 @@ def _parse(reader, template, in_block=None):
 
         else:
             raise ParseError("unknown operator: %r" % operator)
+
+
+### very experimental port of underscore's templating technique
+### to be named
+
+
+import re
+_settings = {
+    'evaluate': re.compile('/<%([\s\S]+?)%>')
+    }
