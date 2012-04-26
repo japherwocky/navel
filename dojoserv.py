@@ -1,6 +1,5 @@
 import sys; sys.path.append('lib/')
 
-
 import os
 join = os.path.join
 exists = os.path.exists
