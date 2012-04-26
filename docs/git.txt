@@ -17,29 +17,71 @@ if you want a particular branch, look to see which are available:
 
 and then you've got your own copy of the project to experiment on.. so no fears of messing anything up.  After you make changes, you `commit` them with something like:
 
-`hg ci -m "`*`a line about what you changed in the code`*`"`
 
-which you might do a few times. A neat trick here is that you can undo changes back to whenever you've committed.
-
-Eventually, you'll want to check all of your changes into the main server, using `push`:
-
-`hg push ssh://`*`yourusername`*`@dojo.pearachute.com/`*`projectname`*
-
-if someone else pushes changes, you can download those changes with `pull`:
-
-`hg pull`
-
-and update your local copy afterwards with `update`:
-
-`hg update`
-
+`git add fileyouchanged`
+`git commit -m 'i changed a file'`
 
 Shit I Have To Look Up Constantly
 ====================================
-
-How to list remote branches
 
 
 How to delete a remote branch:
 
 `git push origin :branchtodelete`
+
+
+
+How to cherry pick a commit from one branch into another
+========================================================
+
+do a git log to figure out the hash of the commit you want
+----------------------------------------------------------
+
+`japherwocky@japhamo:/opt/dojo/docs$ git log -2`
+`commit 000a0ed2e3f160b2a1a7952d90b68c7bc58a7af7`
+`Author: Japhy <github@pearachute.com>`
+`Date:   Wed Apr 25 23:40:14 2012 -0400`
+``
+`    set default tornado.template autoescape to None`
+``
+`commit b2bc595056a1b4d339cce343f6e9b45491320f6e`
+`Author: Japhy <github@pearachute.com>`
+`Date:   Sat Apr 21 19:25:49 2012 -0400`
+``
+`    how to delete remote branches in git`
+`japherwocky@japhamo:/opt/dojo/docs$ `
+
+
+
+checkout the branch you want to cherry pick the commit into
+-----------------------------------------------------------
+
+`japherwocky@japhamo:/opt/dojo/docs$ git add git.txt`
+`japherwocky@japhamo:/opt/dojo/docs$ git commit -m 'more notes on git'`
+`[shepherd b5a322d] more notes on git`
+` 1 files changed, 15 insertions(+), 0 deletions(-)`
+`japherwocky@japhamo:/opt/dojo/docs$ git checkout master`
+`M       README.markdown`
+`M       dojoserv.py`
+`Switched to branch 'master'`
+`Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.`
+`japherwocky@japhamo:/opt/dojo/docs$ git pull origin master`
+`remote: Counting objects: 7, done.`
+`remote: Compressing objects: 100% (1/1), done.`
+`remote: Total 4 (delta 3), reused 4 (delta 3)`
+`Unpacking objects: 100% (4/4), done.`
+`From github.com:japherwocky/dojo`
+` * branch            master     -> FETCH_HEAD`
+`Updating 3206385..b2bc595`
+`Fast-forward`
+` docs/git.txt |   45 +++++++++++++++++++++++++++++++++++++++++++++`
+` 1 files changed, 45 insertions(+), 0 deletions(-)`
+` create mode 100644 docs/git.txt`
+`japherwocky@japhamo:/opt/dojo/docs$ git cherry-pick 2878eeef`
+`[master 000a0ed] set default tornado.template autoescape to None`
+` 1 files changed, 13 insertions(+), 1 deletions(-)`
+
+
+
+
+
