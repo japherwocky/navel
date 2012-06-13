@@ -1,0 +1,84 @@
+
+navel
+fuzzy search
+
+why not solr?
+  design by comittee
+  architects and engineers
+
+  apache == bad hair rock
+
+
+
+
+scrape -> stem -> score -> index (gretel)
+
+
+--tools and code--
+
+Tornado
+-------
+brief history
+=============
+friendfeed / facebook CTO
+killer features
+===============
+* regex strings URLs -> classes
+* command line parsing
+* fancy logging
+
+
+
+
+
+Twitter
+---------
+ugh
+=====
+
+twitter api can't do paging because of adding tweets, because they count from the newest. (reverse chronology)
+whereas actual chronology you could just do ?since=last_time_i_checked
+and snip out the bits where you negotiate your position in the eisenquantum spacetime continuum
+
+
+twitter tools
+=============
+
+http://mike.verdone.ca/twitter/
+
+sudo python setup.py install
+twitter-archiver -o <username>
+makes a nice text file!
+
+stemming
+--------
+
+`pip install stemming`
+======================
+
+Python implementations of the Porter, Porter2, Paice-Husk, and Lovins stemming algorithms for English. These implementations are straightforward and efficient, unlike some Python versions of the same algorithms available on the Web. This package is an extraction of the stemming code included in the Whoosh search engine. <-haha
+
+
+In general porter2 is the best overall stemming algorithm, but not necessarily the fastest or most aggressive.
+
+from stemming.porter2 import stem
+
+(Pdb) stem('potato')
+'potato'
+(Pdb) stem('potatoes')
+'potato'
+(Pdb) stem('potatos')
+'potato'
+
+
+`pip install fuzzy`
+====================
+
+
+redis (lucene)
+tornado (solr)
+
+query (hansel) 
+scaling:
+    queue of text (gretels)
+
