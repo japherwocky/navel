@@ -11,7 +11,7 @@ First, to check out a copy of a project, you use `clone`:
 
 if you want a particular branch, look to see which are available:
 
-
+`git branch -a`
 
 
 

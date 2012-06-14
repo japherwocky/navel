@@ -1,4 +1,4 @@
-The best way to build web apps
-==============================
+NAVEL
+=====
 
-Heavily inspired by many different open source projects
+A fuzzy search engine
