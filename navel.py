@@ -1,10 +1,7 @@
 # coding=utf-8
 import sys; sys.path.append('lib/')
 
-import os
-join = os.path.join
-exists = os.path.exists
-
+import json
 from logging import info, debug
 import tornado.httpserver
 import tornado.ioloop
@@ -15,6 +12,8 @@ from markdown import markdown
 
 from stemming.porter2 import stem
 
+import fuzzy
+fuzz = fuzzy.DMetaphone()
 
 import re
 PUNCTUATION_CHARS = ".,;:!?@£$%^&*()-–<>[]{}\\|/'\""
@@ -31,6 +30,18 @@ def text2words(text):
 
 def index(filename):
 
+    #connect to redis
+    from redis import Redis
+    Rtweets = Redis(db=0)
+    Rstems = Redis(db=1)
+    Rfuzz = Redis(db=2)
+
+    #wipe existing indexes
+    [Rtweets.delete(key) for key in Rtweets.keys()]
+    [Rstems.delete(key) for key in Rstems.keys()]
+    [Rfuzz.delete(key) for key in Rfuzz.keys()]
+    
+
     def line2dict(line):
         out = {}
         out['id'], line = line.split(' ',1)
@@ -39,16 +50,25 @@ def index(filename):
         out['toot'] = line.strip(' \n')
         return out
 
+
+    #parse the tweets
     with open(filename) as f:
         tweets = f.readlines()
         for tootline in tweets:
             tweet = line2dict(tootline)
             debug( tweet['toot'])
+            Rtweets.hmset( tweet['id'], tweet)
 
-            tweet['stems'] = [stem(w) for w in text2words( tweet['toot'])]
+            for wordstem in [stem(w) for w in text2words( tweet['toot'])]:
+                tweetdata = json.dumps( tweet)
+                Rstems.zincrby( wordstem, tweetdata, 1)
 
-            #import pdb;pdb.set_trace()
-            
+            for fuzz0,fuzz1 in [fuzz(w) for w in text2words( tweet['toot'])]:
+                if fuzz0:
+                    Rfuzz.zincrby( fuzz0, tweet['id'], 1)
+                if fuzz1:
+                    Rfuzz.zincrby( fuzz1, tweet['id'], 1)
+
 
 
 class App( tornado.web.Application):
@@ -74,6 +94,11 @@ class App( tornado.web.Application):
             (r"(?!\/static.*)(.*)/?", DocHandler),
             #(r"(.*)/?", DocHandler),
         ]
+
+        from redis import Redis
+        self.Rtweets = Redis(db=0)
+        self.Rstems = Redis(db=1)
+        self.Rfuzz = Redis(db=2)
 
         tornado.web.Application.__init__(self, handlers, **settings)
  
