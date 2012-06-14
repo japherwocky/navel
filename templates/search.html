@@ -14,53 +14,12 @@
 
 <script type="text/javascript">
 
-function mkResult( result) {
-
-    console.log(result);
-
-    var outer = $('<div>', {class:'search_result'});
-    outer.append( $('<img>', {src:result.image}));
-    outer.append( $('<h2>', {text:(result.name + " (" + result.type + ")")}));
-    outer.append( $('<pre>', {text:'relevancy: '+result.score+', ccbn_score: '+result.ccbn_score}));
-    outer.append( $('<p>', {text:result.description}));
-    outer.append( $('<hr />'))
-
-    return outer
-    }
-
-
-function search() {
-
-    var querystring = ''
-    if ( $(this).attr('href') == undefined) {
-        querystring = '/query?q='+ $('#q').val()
-    } else {
-        querystring = $(this).attr('href')
-        }
-
-    $.get( querystring, function(response){
-        // response comes back as a json obj like {'facets':{'type':['freebie',20]}, 'results':[]}
-        window.response = response;
-
-        var result_div = $('#results');
-        result_div.children().remove();
-        $(response.results).each( function() { result_div.append( mkResult(this))});
-
-        mkFacets( response.facets);
-
-        })
-
-    return false;
-    };
-
-
-
 
 function onresults(response) {
     window.response = response
     $('#results').children().remove()
     for (var r in response) {
-        var txt = response[r].id + ': ' + response[r].toot;
+        var txt = response[r].timestamp + ': ' + response[r].toot;
         $('#results').append( $('<p>', {text:txt}))
         }
     }
@@ -93,7 +52,7 @@ body {
 	text-align:center; 
 	font-family: inconsolata,arial, sans;
 	font-size: 13px;
-    color: #4075D6;
+    color: #07002E;
 	background: #FFFFFF;
 	}
 

@@ -46,7 +46,7 @@ def index(filename):
         out = {}
         out['id'], line = line.split(' ',1)
         out['username'], line = line.split('>')
-        out['username'] = out['username'].split('<')[1]
+        out['timestamp'], out['username'] = out['username'].split('<')
         out['toot'] = line.strip(' \n')
         return out
 
