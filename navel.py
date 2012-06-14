@@ -58,16 +58,15 @@ def index(filename):
             tweet = line2dict(tootline)
             debug( tweet['toot'])
             Rtweets.hmset( tweet['id'], tweet)
-
             for wordstem in [stem(w) for w in text2words( tweet['toot'])]:
                 tweetdata = json.dumps( tweet)
-                Rstems.zincrby( wordstem, tweetdata, 1)
+                Rstems.zincrby( wordstem, tweetdata, int(tweet['id']))
 
             for fuzz0,fuzz1 in [fuzz(w) for w in text2words( tweet['toot'])]:
                 if fuzz0:
-                    Rfuzz.zincrby( fuzz0, tweet['id'], 1)
+                    Rfuzz.zincrby( fuzz0, tweet['id'], int(tweet['id']))
                 if fuzz1:
-                    Rfuzz.zincrby( fuzz1, tweet['id'], 1)
+                    Rfuzz.zincrby( fuzz1, tweet['id'], int(tweet['id']))
 
 
 
@@ -112,12 +111,14 @@ class MainHandler( tornado.web.RequestHandler):
     def post(self):
         stemq = self.get_argument('stemq', False)
         if stemq:
+            debug('Querying for %s by stem %s'%(stemq,stem(stemq)))
             results = self.application.Rstems.zrange( stem(stemq.lower()), 0, -1) 
             results = [json.loads(r) for r in results]
 
         fuzzq = self.get_argument('fuzzq', False)
         if fuzzq:
-            results = self.application.Rfuzz.zrange( fuzz(stem(fuzzq))[0], 0, -1)
+            debug('Querying for %s by fuzz %s'%(fuzzq,fuzz(fuzzq)))
+            results = self.application.Rfuzz.zrange( fuzz(fuzzq)[0], 0, -1)
             results = [ self.application.Rtweets.hgetall(r) for r in results]
 
         self.set_header("Content-Type", "application/json") 
