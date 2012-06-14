@@ -16,7 +16,7 @@ import fuzzy
 fuzz = fuzzy.DMetaphone()
 
 import re
-PUNCTUATION_CHARS = ".,;:!?@£$%^&*()-–<>[]{}\\|/'\""
+PUNCTUATION_CHARS = ".,;:!?@£$%^&*()-–<>[]{}\\|/'\"_#"
 nopunk = re.compile( r"[%s]" % re.escape(PUNCTUATION_CHARS))
 STOP_WORDS = set(["the", "of", "to", "and", "a", "in", "is", "it", "you", "that"])
 MIN_WORD_LENGTH = 2
@@ -24,7 +24,7 @@ MIN_WORD_LENGTH = 2
 def text2words(text):
     if not text: return []
     text = nopunk.sub(" ", text) #strip punctuation
-    words = [word for word in text.split() if len(word) >= MIN_WORD_LENGTH and word.lower() not in STOP_WORDS]
+    words = [word.lower() for word in text.split() if len(word) >= MIN_WORD_LENGTH and word.lower() not in STOP_WORDS]
     return words
 
 
@@ -107,9 +107,22 @@ class App( tornado.web.Application):
 class MainHandler( tornado.web.RequestHandler):
     def get(self):
 
-        txt = open( 'docs/hello.txt').read()
-        doc = markdown( txt)
-        self.render( 'doc.html', doc=doc)
+        self.render( 'search.html')
+
+    def post(self):
+        stemq = self.get_argument('stemq', False)
+        if stemq:
+            results = self.application.Rstems.zrange( stem(stemq.lower()), 0, -1) 
+            results = [json.loads(r) for r in results]
+
+        fuzzq = self.get_argument('fuzzq', False)
+        if fuzzq:
+            results = self.application.Rfuzz.zrange( fuzz(stem(fuzzq))[0], 0, -1)
+            results = [ self.application.Rtweets.hgetall(r) for r in results]
+
+        self.set_header("Content-Type", "application/json") 
+        self.write( json.dumps(results))
+        self.finish()
 
 
 class DocHandler( tornado.web.RequestHandler):

@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
+	<title>In ur data, searching for lolz</title>
+
+<link href='http://fonts.googleapis.com/css?family=Inconsolata&subset=latin' rel='stylesheet' type='text/css'>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+function mkResult( result) {
+
+    console.log(result);
+
+    var outer = $('<div>', {class:'search_result'});
+    outer.append( $('<img>', {src:result.image}));
+    outer.append( $('<h2>', {text:(result.name + " (" + result.type + ")")}));
+    outer.append( $('<pre>', {text:'relevancy: '+result.score+', ccbn_score: '+result.ccbn_score}));
+    outer.append( $('<p>', {text:result.description}));
+    outer.append( $('<hr />'))
+
+    return outer
+    }
+
+
+function search() {
+
+    var querystring = ''
+    if ( $(this).attr('href') == undefined) {
+        querystring = '/query?q='+ $('#q').val()
+    } else {
+        querystring = $(this).attr('href')
+        }
+
+    $.get( querystring, function(response){
+        // response comes back as a json obj like {'facets':{'type':['freebie',20]}, 'results':[]}
+        window.response = response;
+
+        var result_div = $('#results');
+        result_div.children().remove();
+        $(response.results).each( function() { result_div.append( mkResult(this))});
+
+        mkFacets( response.facets);
+
+        })
+
+    return false;
+    };
+
+
+
+
+function onresults(response) {
+    window.response = response
+    $('#results').children().remove()
+    for (var r in response) {
+        var txt = response[r].id + ': ' + response[r].toot;
+        $('#results').append( $('<p>', {text:txt}))
+        }
+    }
+
+
+function stemsearch() {
+    $.post('/', {stemq:$('#q').val()}, onresults)
+    return false;
+    }
+
+function fuzzsearch() {
+    $.post('/', {fuzzq:$('#q').val()}, onresults)
+    return false;
+    }
+
+
+
+$(document).ready( function() {
+    $('#stem').on('click', stemsearch);
+    $('#fuzz').on('click', fuzzsearch);
+    });
+
+
+</script>
+
+
+<style type="text/css">
+
+body { 
+	text-align:center; 
+	font-family: inconsolata,arial, sans;
+	font-size: 13px;
+    color: #4075D6;
+	background: #FFFFFF;
+	}
+
+img {
+	border-style:none;
+	}
+
+A:link, A:visited, A:active {
+   text-decoration:none; 
+	color: #3e5315;
+}
+A:hover { 
+	text-decoration:underline; 
+   color: #FCBE4B;
+}
+
+
+li,ul { list-style-type:none;}
+
+lh {font-size:16px;}
+
+
+
+</style>
+</head>
+
+<body>
+
+<form action="" METHOD=GET>
+    <input type=text name="q" id="q" value="">
+    <input id="stem" type=submit VALUE="STEMS">
+    <input id="fuzz" type=submit VALUE="FUZZ">
+</form>
+
+<hr />
+
+<div id="results">
+
+</div>
+
+
+
+
+
+</body>
+
+</html>
