@@ -1,0 +1,24 @@
+1/slide elephant
+2/slide solr
+3/slide architects
+4/slide engineers
+5/slide rockstars
+6/slide scrape, score, scrub, index
+7/slide into the data mines
+8/slide twitter!
+9/url working-with-timelines (reverse-chronology)
+10/terminal twitter-tools, twitter-archive
+11/slide scrubbing
+12/url stemming.py
+13/slide not bad
+14/url fuzzy.py
+15/shell stem some stuff!
+    from stemming.porter2 import stem
+    from fuzzy import DMetaphone
+    fuzz = DMetaphone()
+16/slide scoring
+17/code tfidf.py
+17/slide science
+19/slide business
+20/url thabookie favstar
+21/slide indexing
