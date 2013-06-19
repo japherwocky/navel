@@ -32,7 +32,7 @@ Go time
 
 So once you've got those set up, twitter will add a few command line tools that we'll use to get some data to index.
 
-Run something like `twitter-archiver -o japherwocky`, where japherwocky is your twitter handle.  On the first pass, the -o option will set up and store OAuth credentials, and when you're done you'll have a file named after your particular twitter handle.  In this case, I've got a file named "japherwocky" full of all my tweets.
+Run something like `twitter-archiver -o japherwocky`, where `japherwocky` is your twitter handle.  On the first pass, the -o option will set up and store OAuth credentials, and when you're done you'll have a file named after your particular twitter handle.  In this case, I've got a file named "japherwocky" full of all my tweets.
 
 To build the index, launch navel.py with the `--index` option pointing to the file twitter-archiver just made.  To see some tweets as it goes, use `--logging=debug`, eg:
 
