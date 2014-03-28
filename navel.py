@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import json
+import logging
 from logging import info, debug
 import tornado.httpserver
 import tornado.ioloop
@@ -147,11 +148,14 @@ class DocHandler( tornado.web.RequestHandler):
 def main():
     from tornado.options import define, options
     define("port", default=8001, help="run on the given port", type=int)
-    define("runtests", default=False, help="run tests", type=bool)
+    define("runtests", default=False, help="run tests")
 
-    define("index", default=None, help="twitter_archive dump to index", type=unicode)
+    define("mysql", default=False, help="attempt to connect to mysql")
 
     tornado.options.parse_command_line()
+
+    # instantiate the Application singleton here to attach database connections
+    Application = App()
 
     if options.runtests:
         #put tests in the tests folder
@@ -161,11 +165,17 @@ def main():
         unittest.main( 'tests')
         return
 
-    if options.index:
-        debug( 'Adding %s to tweet index'%options.index)
-        index(options.index)
+    if options.mysql:
+        """
+        Look in keys.py for database credentials, build a connection
+        """
+        import torndb
+        from keys import mysql
+        Application.mysql = torndb.Connection(mysql['host'], mysql['database'], mysql['user'], mysql['password'])
+        logging.info('Connected to mysql://{}:{}@{}:3306/{}'.format( mysql['user'], '*'*len(mysql['password']), mysql['host'], mysql['database']))
+        
 
-    http_server = tornado.httpserver.HTTPServer( App() )
+    http_server = tornado.httpserver.HTTPServer( Application )
     http_server.listen(options.port)
     info( 'Serving on port %d' % options.port )
     tornado.ioloop.IOLoop.instance().start()
