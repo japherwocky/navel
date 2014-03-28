@@ -100,6 +100,16 @@ class App( tornado.web.Application):
         self.Rfuzz = Redis(db=2)
 
         tornado.web.Application.__init__(self, handlers, **settings)
+        return
+
+
+    def queue(self, callback, timing=1*1000): #ms
+
+        def tick():
+            callback(self)
+
+        import tornado.ioloop
+        tornado.ioloop.PeriodicCallback(tick, timing).start()
  
 
 
@@ -173,6 +183,11 @@ def main():
         from keys import mysql
         Application.mysql = torndb.Connection(mysql['host'], mysql['database'], mysql['user'], mysql['password'])
         logging.info('Connected to mysql://{}:{}@{}:3306/{}'.format( mysql['user'], '*'*len(mysql['password']), mysql['host'], mysql['database']))
+
+    # lets look at wp for a bit
+    def dev(app):
+        import pdb;pdb.set_trace()
+    Application.queue( dev, 1)
         
 
     http_server = tornado.httpserver.HTTPServer( Application )
@@ -183,4 +198,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
