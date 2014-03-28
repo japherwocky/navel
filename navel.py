@@ -116,7 +116,7 @@ class App( tornado.web.Application):
 class MainHandler( tornado.web.RequestHandler):
     def get(self):
 
-        self.render( 'search.html')
+        self.render( 'index.html')
 
     def post(self):
         stemq = self.get_argument('stemq', False)
@@ -159,6 +159,7 @@ def main():
     from tornado.options import define, options
     define("port", default=8001, help="run on the given port", type=int)
     define("runtests", default=False, help="run tests")
+    define("pdb", default=False, help="instantiate the Application and drop into a pdb session")
 
     define("mysql", default=False, help="attempt to connect to mysql")
 
@@ -187,7 +188,9 @@ def main():
     # lets look at wp for a bit
     def dev(app):
         import pdb;pdb.set_trace()
-    Application.queue( dev, 1)
+
+    if options.pdb:
+        Application.queue( dev, 1)
         
 
     http_server = tornado.httpserver.HTTPServer( Application )
