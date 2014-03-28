@@ -1,2 +1,4 @@
 *.pyc
 .hg*
+keys.py
+env/*
